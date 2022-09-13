@@ -1,7 +1,14 @@
-import "./App.css";
+import { AppContainer } from "./styles";
 
-function App() {
-  return null;
-}
+import { Column } from "./Column";
 
-export { App };
+import { AddNewItem } from "./AddNewItem";
+
+export const App = () => {
+  return (
+    <AppContainer>
+      <Column text="Todo: "></Column>
+      <AddNewItem toggleButtonText="+ Add another list" onAdd={console.log} />
+    </AppContainer>
+  );
+};
