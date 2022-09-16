@@ -1,21 +1,29 @@
 import { ColumnContainer, ColumnTitle } from "./styles";
 import { Card } from "./Card";
 import { AddNewItem } from "./AddNewItem";
+import { useAppState } from "./state/AppStateContext";
+
+import { addTask } from "./state/actions";
 
 type ColumnProps = {
   text: string;
+  id: string;
 };
 
-export const Column: React.FC<ColumnProps> = ({ text }: ColumnProps) => {
+export const Column: React.FC<ColumnProps> = ({ text, id }: ColumnProps) => {
+  const { getTasksByListId, dispatch } = useAppState();
+
+  const tasks = getTasksByListId(id);
+
   return (
     <ColumnContainer>
       <ColumnTitle>{text}</ColumnTitle>
-      <Card text="Generate app scaffold" />
-      <Card text="Learn TypeScript" />
-      <Card text="Begin to use static typing" />
+      {tasks.map((task) => (
+        <Card text={task.text} id={task.id} />
+      ))}
       <AddNewItem
         toggleButtonText="+ Add another card"
-        onAdd={console.log}
+        onAdd={(text) => dispatch(addTask(text, id))}
         dark
       />
     </ColumnContainer>
