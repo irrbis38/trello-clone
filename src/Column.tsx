@@ -8,6 +8,7 @@ import { useAppState } from "./state/AppStateContext";
 import { useDrop } from "react-dnd";
 import { moveList, addTask } from "./state/actions";
 import { throttle } from "throttle-debounce-ts";
+import { isHidden } from "./utils/isHidden";
 
 type ColumnProps = {
   text: string;
@@ -39,7 +40,7 @@ export const Column: React.FC<ColumnProps> = ({ text, id }: ColumnProps) => {
   const { drag } = useItemDrag({ type: "COLUMN", id, text });
   drag(drop(ref));
   return (
-    <ColumnContainer ref={ref}>
+    <ColumnContainer ref={ref} isHidden={isHidden(draggedItem, "COLUMN", id)}>
       <ColumnTitle>{text}</ColumnTitle>
       {tasks.map((task) => (
         <Card text={task.text} id={task.id} />
